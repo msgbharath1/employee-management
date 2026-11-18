@@ -10,10 +10,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-
 class EmployeeControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -31,5 +31,20 @@ class EmployeeControllerTest {
     @Test
     void duplicate() throws Exception {
         mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content("{\"id\":1,\"name\":\"Bharath Sundaresan\",\"email\":\"bharath_sundaresan@gmail.com\"}")).andExpect(status().isConflict());
+    }
+
+    @Test
+    void updateEmployee() throws Exception {
+        mockMvc.perform(
+                        put("/employees/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                          "id": 1,
+                                          "name": "John Updated",
+                                          "email": "john.updated@test.com"
+                                        }
+                                        """))
+                .andExpect(status().isOk());
     }
 }

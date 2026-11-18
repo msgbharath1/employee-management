@@ -37,6 +37,18 @@ public class EmployeeService {
         return employee;
     }
 
+    public Employee updateEmployee(Long id, Employee employee) {
+        if (!employees.containsKey(id)) {
+            throw new EmployeeNotFoundException(id);
+        }
+
+        // Ensure the employee ID matches the path ID
+        employee.setId(id);
+
+        employees.put(id, employee);
+        return employee;
+    }
+
     public Employee getEmployee(Long id) {
         if (!employees.containsKey(id)) throw new EmployeeNotFoundException(id);
         return employees.get(id);

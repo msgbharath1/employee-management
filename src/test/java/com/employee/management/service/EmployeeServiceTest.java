@@ -39,4 +39,27 @@ class EmployeeServiceTest {
         assertThrows(EmployeeNotFoundException.class,
                 () -> employeeService.getEmployee(1L));
     }
+
+    @Test
+    void shouldUpdateEmployee() {
+        EmployeeService s = new EmployeeService();
+
+        s.createEmployee(new Employee(1L, "Bharath Sundaresan", "bharath_sundaresan@gmail.com"));
+
+        Employee updated =
+                s.updateEmployee(
+                        1L,
+                        new Employee(
+                                1L,
+                                "Bharath updated",
+                                "bsundaresan_updated@test.com"));
+
+        assertEquals(1L, updated.getId());
+        assertEquals("Bharath updated", updated.getName());
+        assertEquals("bsundaresan_updated@test.com", updated.getEmail());
+
+        Employee retrieved = s.getEmployee(1L);
+        assertEquals("Bharath updated", retrieved.getName());
+        assertEquals("bsundaresan_updated@test.com", retrieved.getEmail());
+    }
 }
